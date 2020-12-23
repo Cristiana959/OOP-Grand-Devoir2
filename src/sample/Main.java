@@ -28,7 +28,6 @@ import java.util.ArrayList;
 public class Main extends Application {
 
     public int counter = 1;
-    public int nr_check = 0;
     public int num_Questions = 1;
     public int row = 0;
     public int colum = 0;
@@ -42,6 +41,7 @@ public class Main extends Application {
     public ArrayList<CheckBox> responseCheckBoxArray = new ArrayList<>();
     public ArrayList<RadioButton> responseRadio = new ArrayList<>();
 
+    GridPane m_gird = new GridPane();
 
     Label question_label = new Label("Question no " + num_Questions);
 
@@ -66,12 +66,12 @@ public class Main extends Application {
 
     Button save = new Button("Save question");
     Button gen_html = new Button("Generate HTML");
+    Button update_reponses = new Button("Update");
     Button clear_reponses = new Button("Clear reponse");
 
     Button open_test = new Button("Open Test");
     Button save_test = new Button("Save Test");
     Button exit = new Button("Exit");
-    Button test = new Button("TEST");
 
     public GridPane Top_UI(GridPane gp) {
         gp.add(question_label, 0, 0);
@@ -93,6 +93,7 @@ public class Main extends Application {
         VBox vbox = new VBox();
         vbox.getChildren().add(save);
         vbox.getChildren().add(gen_html);
+        vbox.getChildren().add(update_reponses);
         vbox.getChildren().add(clear_reponses);
 
         gp.add(vbox,0,5);
@@ -101,15 +102,24 @@ public class Main extends Application {
     }
 
     public GridPane Right_UI(GridPane gp) {
-        GridPane m_gird = new GridPane();
         gp.add(type_question, 0, 0);
         gp.add(question_text, 0, 1);
+        gp.add(type_answer,0,2);
 
         multiple_answer.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                dinamicGridMulti(m_gird).getChildren().clear();
-                dinamicGridSingle(m_gird).getChildren().clear();
+                if(m_gird.getChildren() != null)
+                {
+                    m_gird.getChildren().clear();
+                    responseTextFieldArray.clear();
+                }
+                if(m_gird.getChildren() !=null)
+                {
+                    m_gird.getChildren().clear();
+                    responseTextFieldArray.clear();
+                }
+                responseTextFieldArray.clear();
                 gp.add(dinamicGridMulti(m_gird), 0, 4);
             }
         });
@@ -117,41 +127,69 @@ public class Main extends Application {
         single_answer.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                dinamicGridSingle(m_gird).getChildren().clear();
-                dinamicGridMulti(m_gird).getChildren().clear();
+                if(m_gird.getChildren() != null)
+                {
+                    m_gird.getChildren().clear();
+                    responseTextFieldArray.clear();
+                }
+                if(m_gird.getChildren() !=null)
+                {
+                    m_gird.getChildren().clear();
+                    responseTextFieldArray.clear();
+                }
+                responseTextFieldArray.clear();
                 gp.add(dinamicGridSingle(m_gird),0,4);
-
             }
         });
 
         clear_reponses.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                dinamicGridSingle(m_gird).getChildren().clear();
-                dinamicGridMulti(m_gird).getChildren().clear();
+                if(m_gird.getChildren() != null)
+                {
+                    m_gird.getChildren().clear();
+                    responseTextFieldArray.clear();
+                }
+                if(m_gird.getChildren() !=null)
+                {
+                    m_gird.getChildren().clear();
+                    responseTextFieldArray.clear();
+                }
                 single_answer.setSelected(false);
                 multiple_answer.setSelected(false);
-
             }
         });
 
-        nr_choice.textProperty().addListener(new ChangeListener<String>() {
+        update_reponses.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+            public void handle(ActionEvent actionEvent) {
+                m_gird.getChildren().clear();
+                responseCheckBoxArray.clear();
+                responseRadio.clear();
+                responseTextFieldArray.clear();
+                answers.clear();
+                good_answers.clear();
                 if(single_answer.isSelected())
                 {
-                    dinamicGridSingle(m_gird).getChildren().clear();
-                    dinamicGridMulti(m_gird).getChildren().clear();
                     gp.add(dinamicGridSingle(m_gird),0,4);
                 }
-                else if(multiple_answer.isSelected())
+                if(multiple_answer.isSelected())
                 {
-                    dinamicGridMulti(m_gird).getChildren().clear();
-                    dinamicGridSingle(m_gird).getChildren().clear();
-                    gp.add(dinamicGridMulti(m_gird), 0, 4);
+                    gp.add(dinamicGridMulti(m_gird),0,4);
                 }
             }
         });
+
+        Button t = new Button("Test");
+
+        t.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                System.out.println(responseTextFieldArray.get(0).getText());
+            }
+        });
+
+        gp.add(t,0,10);
 
         return gp;
     }
@@ -164,13 +202,13 @@ public class Main extends Application {
         } else {
             for (int i = 0; i < aux_rep; i++, row++) {
                 colum = 0;
-                CheckBox checkBox = new CheckBox(String.valueOf(i));
-                TextField response1 = new TextField();
-                gridPane.add(checkBox, colum, row);
+                CheckBox checkBox1 = new CheckBox(String.valueOf(i));
+                TextField response2 = new TextField();
+                gridPane.add(checkBox1, colum, row);
                 colum = colum + 1;
-                gridPane.add(response1, colum, row);
-                responseTextFieldArray.add(response1);
-                responseCheckBoxArray.add(checkBox);
+                gridPane.add(response2, colum, row);
+                responseTextFieldArray.add(response2);
+                responseCheckBoxArray.add(checkBox1);
             }
         }
         return gridPane;
@@ -178,7 +216,7 @@ public class Main extends Application {
 
     public GridPane dinamicGridSingle(GridPane gridPane)
     {
-        final ToggleGroup check_reponse = new ToggleGroup();
+        ToggleGroup check_reponse = new ToggleGroup();
         int aux_rep = Integer.parseInt(nr_choice.getText());
         if (aux_rep == 0) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -196,6 +234,7 @@ public class Main extends Application {
                 responseRadio.add(radioReponse);
             }
         }
+
         return gridPane;
     }
 
@@ -215,7 +254,7 @@ public class Main extends Application {
         }
     }
 
-    public void transformArrayCheckBox()
+    public void transformArrayRadio()
     {
         for(int i=0;i<responseRadio.size();i++)
         {
@@ -226,7 +265,7 @@ public class Main extends Application {
         }
     }
 
-    public void transformArrayRadio()
+    public void transformArrayCheckBox()
     {
         for(int i=0;i<responseCheckBoxArray.size();i++)
         {
@@ -262,16 +301,13 @@ public class Main extends Application {
             }
         });
 
-        minus_question.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if (counter <= 0) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.show();
-                } else {
-                    counter = counter - 1;
-                    nr_choice.setText(String.valueOf(counter));
-                }
+        minus_question.setOnAction(actionEvent -> {
+            if (counter <= 0) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.show();
+            } else {
+                counter = counter - 1;
+                nr_choice.setText(String.valueOf(counter));
             }
         });
 
@@ -295,31 +331,25 @@ public class Main extends Application {
         });
 
         scene.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
-            if (keyEvent.equals(KeyCode.ENTER)) {
+            if (keyEvent.getCode().equals(KeyCode.ENTER)) {
 
             } else if (keyEvent.getCode().equals(KeyCode.ESCAPE)) {
                 System.exit(0);
             }
         });
 
-        transformArrayCheckBox();
-        transformArrayTextBox();
-        transformArrayRadio();
-
         save.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                transformArrayCheckBox();
+                transformArrayTextBox();
+                transformArrayRadio();
                 Question question = new Question(question_text.getText(),good_answers.size(),answers,good_answers);
-                System.out.println(question.toString());
+                questionArrayList.add(question);
             }
         });
 
-        prev_question.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                gridPane.getChildren().clear();
-            }
-        });
+        prev_question.setOnAction(actionEvent -> gridPane.getChildren().clear());
 
         scene.setScene(new Scene(borderPane, 1280, 720));
         scene.show();
