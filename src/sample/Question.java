@@ -32,7 +32,7 @@ public class Question {
     }
 
     public ArrayList<String> getResponses() {
-        return responses;
+        return this.responses;
     }
 
     @Override
@@ -55,5 +55,10 @@ public class Question {
 
     public void setAnswers(ArrayList<String> answers) {
         this.answers = answers;
+    }
+
+    public int getNrReponses()
+    {
+        return this.responses.size();
     }
 }
