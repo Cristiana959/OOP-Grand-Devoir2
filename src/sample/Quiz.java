@@ -45,18 +45,6 @@ public class Quiz {
             ArrayList<String> reponseArray = new ArrayList<>();
             ArrayList<String> answersArray = new ArrayList<>();
 
-            for(int j=0;j<reponse.length;j++)
-            {
-                reponseArray.add(reponse[j]);
-                System.out.println(reponse[j]);
-            }
-
-            for(int j=0;j<answers.length;j++)
-            {
-                answersArray.add(answers[j]);
-                System.out.println(answers[j]);
-            }
-
             Question question = new Question(line[0],Integer.parseInt(line[1]),reponseArray,answersArray);
             questionList.add(question);
 

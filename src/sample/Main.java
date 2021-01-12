@@ -201,7 +201,7 @@ public class Main extends Application {
             }
         });
 
-        Button t = new Button("Test");
+/*        Button t = new Button("Test");
 
         t.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -210,7 +210,7 @@ public class Main extends Application {
             }
         });
 
-        gp.add(t, 0, 10);
+        gp.add(t, 0, 10);*/
 
         return gp;
     }
@@ -316,6 +316,7 @@ public class Main extends Application {
         borderPane.setTop(Top_UI(new GridPane()));
         borderPane.setRight(Left_UI(new GridPane()));
         borderPane.setLeft(Right_UI());
+
         ToggleGroup group = new ToggleGroup();
         single_answer.setToggleGroup(group);
         multiple_answer.setToggleGroup(group);
@@ -324,7 +325,7 @@ public class Main extends Application {
 
     public void UI(Stage scene) {
         setUI();
-        final Scene[] var = {new Scene(borderPane, 1280, 720)};
+        final Scene[] var = {new Scene(borderPane, 670, 550)};
 
         plus_question.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -366,6 +367,9 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 saveQuestion();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText("Question saved");
+                alert.show();
             }
         });
 
@@ -407,18 +411,20 @@ public class Main extends Application {
                 }
             }
         });
-
+        var[num_Questions-1].getStylesheets().add("style.css");
         scene.setScene(var[num_Questions - 1]);
         scene.show();
     }
 
-    public void actionButtons()
-    {
+    public void actionButtons() {
         save_test.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 try {
                     txtSaveQuiz(new Quiz(questionArrayList));
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("Quiz saved");
+                    alert.show();
                 } catch (IOException e) {
                 }
             }
@@ -428,8 +434,8 @@ public class Main extends Application {
 
     public void txtSaveQuiz(Quiz quiz) throws IOException {
         quiz = new Quiz(questionArrayList);
-        File save_quiz = new File("1.txt");
-        quiz.writeInFile(save_quiz,questionArrayList);
+        File save_quiz = new File("Quiz.txt");
+        quiz.writeInFile(save_quiz, questionArrayList);
         questionArrayList = quiz.readFile(save_quiz);
     }
 
@@ -437,8 +443,10 @@ public class Main extends Application {
         Quiz quiz = new Quiz(questionArrayList);
         save_quiz = new File("2.txt");
         questionArrayList = quiz.readFile(save_quiz);
-        try{
-        gp.add(m_gird,0,4);}catch (Exception e){}
+        try {
+            gp.add(m_gird, 0, 4);
+        } catch (Exception e) {
+        }
         popUI();
     }
 
@@ -450,7 +458,16 @@ public class Main extends Application {
             System.out.println(question);
             question_text.setText(question.getName());
             nr_choice.setText(String.valueOf(question.getNrReponses()));
-
+            gen_html.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    try {
+                        generateHTML();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
             if (question.getNumberOfAnswers() > 1) {
                 multiple_answer.setSelected(true);
                 //m_gird.getChildren().clear();
@@ -469,7 +486,7 @@ public class Main extends Application {
                 }
             } else if (question.getNumberOfAnswers() <= 1) {
                 single_answer.setSelected(true);
-               // m_gird.getChildren().clear();
+                // m_gird.getChildren().clear();
                 dinamicGridSingle(m_gird);
                 int i = 0;
                 for (TextField tf : responseTextFieldArray) {
@@ -509,11 +526,33 @@ public class Main extends Application {
         responseTextFieldArray.clear();
     }
 
-    @Override
+    public void generateHTML() throws IOException {
+        StringBuffer sb = new StringBuffer();
+        File html = new File("4.html");
+        HTML_gen gen = new HTML_gen(html,sb);
+        gen.startDoc(sb);
+
+        for(Question question : questionArrayList)
+        {
+            gen.appendTag(sb,"h1","Question :\n" + question.getName());
+            gen.appendTag(sb,"h3","Answers:");
+            for(String str : question.getResponses())
+            {
+                gen.appendTag(sb,"p",str);
+            }
+            gen.appendTag(sb,"h3","Correct answers:");
+            for(String str: question.getAnswers())
+            {
+                gen.appendTag(sb,"p",str);
+            }
+        }
+        gen.finishDoc(sb);
+        gen.createHTMLFile(sb,html);
+    }
+   @Override
     public void start(Stage primaryStage) throws Exception {
         actionButtons();
         UI(primaryStage);
-
     }
 
     public static void main(String[] args) {
