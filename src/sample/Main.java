@@ -223,7 +223,7 @@ public class Main extends Application {
         } else {
             for (int i = 0; i < aux_rep; i++, row++) {
                 colum = 0;
-                CheckBox checkBox1 = new CheckBox(String.valueOf(i));
+                CheckBox checkBox1 = new CheckBox(String.valueOf(i+1));
                 TextField response2 = new TextField();
                 gridPane.add(checkBox1, colum, row);
                 colum = colum + 1;
@@ -244,7 +244,7 @@ public class Main extends Application {
         } else {
             for (int i = 0; i < aux_rep; i++, row++) {
                 colum = 0;
-                RadioButton radioReponse = new RadioButton(String.valueOf(i));
+                RadioButton radioReponse = new RadioButton(String.valueOf(i+1));
                 TextField response1 = new TextField();
                 gridPane.add(radioReponse, colum, row);
                 colum = colum + 1;
