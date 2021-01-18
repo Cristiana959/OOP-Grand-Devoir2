@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="GrandDevoir2:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/GrandDevoir2_jar</output-path>
+    <root id="archive" name="GrandDevoir2.jar">
+      <element id="module-output" name="GrandDevoir2" />
+      <element id="extracted-dir" path="D:/JavaFX/javafx-sdk-11.0.2/lib/src.zip" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/JavaFX/javafx-sdk-11.0.2/lib/javafx-swt.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/JavaFX/javafx-sdk-11.0.2/lib/javafx.web.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/JavaFX/javafx-sdk-11.0.2/lib/javafx.base.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/JavaFX/javafx-sdk-11.0.2/lib/javafx.fxml.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/JavaFX/javafx-sdk-11.0.2/lib/javafx.media.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/JavaFX/javafx-sdk-11.0.2/lib/javafx.swing.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/JavaFX/javafx-sdk-11.0.2/lib/javafx.controls.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/JavaFX/javafx-sdk-11.0.2/lib/javafx.graphics.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

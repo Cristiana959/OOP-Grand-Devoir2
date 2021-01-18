@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="GrandDevoir2">
+    <output-path>$PROJECT_DIR$/out/artifacts/GrandDevoir2</output-path>
+    <root id="root">
+      <element id="archive" name="GrandDevoir2.jar">
+        <element id="module-output" name="GrandDevoir2" />
+      </element>
+    </root>
+  </artifact>
+</component>
