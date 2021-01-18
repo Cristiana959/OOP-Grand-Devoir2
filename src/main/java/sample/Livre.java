@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Livre {
-
     private LinkedHashMap<String,String> newLivre;
 
     public Livre(LinkedHashMap<String, String> newLivre) {
@@ -50,13 +49,13 @@ public class Livre {
 
 
             }
-    } catch (SQLException throwables) {
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-    return books;
+        return books;
     }
 
-        public void addNewLivre() throws SQLException {
+    public void addNewLivre() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/bibliotheque?useSSL=false";
         String user = "root";
         String password = "";
@@ -76,7 +75,7 @@ public class Livre {
                 if(pair.getValue()== null)
                     pst.setNull(i, Types.DATE);
                 else
-                    if(pair.getValue().toString() != null)
+                if(pair.getValue().toString() != null)
                     pst.setString(i, pair.getValue().toString());
 
 
@@ -203,18 +202,18 @@ public class Livre {
 
         if (choice == 1){
 
-            query = "SELECT * FROM LIVRE WHERE TITLE = '" + wordToSearchAfter + "'";
+            query = "SELECT TITLE FROM LIVRE WHERE TITLE = '" + wordToSearchAfter + "'";
 
         }
         else
         {
             if (choice == 2){
 
-                query = "SELECT * FROM LIVRE WHERE AUTEUR_ID = (SELECT ID FROM AUTEUR WHERE NOM = '" + wordToSearchAfter + "')";
+                query = "SELECT TITLE FROM LIVRE WHERE AUTEUR_ID = (SELECT ID FROM AUTEUR WHERE NOM = '" + wordToSearchAfter + "')";
             }
             else
             {
-                query = "SELECT * FROM LIVRE WHERE EDITURE = '" + wordToSearchAfter + "'";
+                query = "SELECT TITLE FROM LIVRE WHERE EDITURE = '" + wordToSearchAfter + "'";
             }
         }
 
@@ -226,12 +225,9 @@ public class Livre {
             while (rs.next()) {
                 System.out.println("Book(s) found");
 
-                result.add(rs.getString(2));
+                result.add(rs.getString(1));
 
-                result.add (rs.getString(3)+ ", ");
-                result.add(rs.getString(4) + ", ");
-                result.add(rs.getString(5) + ", ");
-                result.add(rs.getString(6) + ", ");
+                ;
             }
 
         } catch (SQLException ex) {
@@ -386,11 +382,11 @@ public class Livre {
 
              ResultSet rs = pst.executeQuery()) {
 
-                int i = 1;
+            int i = 1;
 
-                while (rs.next()) {
+            while (rs.next()) {
 
-                    while(i <= 10){
+                while(i <= 10){
                     result.add(rs.getString(i));
                     i++;}
 
@@ -407,12 +403,6 @@ public class Livre {
     }
 
 }
-
-
-
-
-
-
 
 
 
